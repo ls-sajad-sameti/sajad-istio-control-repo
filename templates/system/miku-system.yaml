@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+ name: miku-system
+ namespace: argocd
+ finalizers:
+ - resources-finalizer.argocd.argoproj.io
+spec:
+ destination:
+   namespace: kube-system
+   server: {{ .Values.spec.destination.server }}
+ project: miku-system
+ source:
+   repoURL: https://lightspeedhq.jfrog.io/artifactory/helm 
+   targetRevision: {{ .Values.spec.mikuSystemVersion }}
+   chart: miku-system
+   helm:
+     releaseName: miku-system
+     version: v3
+     values: |
+{{- toYaml .Values.system | nindent 8 }}
+ syncPolicy:
+   automated:
+     prune: true
+     selfHeal: true
+

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+data:
+  policy.csv: |
+    p, ci-user, applications, *, */*, allow
+    p, ci-user, applications, *, miku-system/*, deny
+    p, ci-user, applications, *, bootstrap/*, deny
+    p, ci-user, projects, *, *, allow
+    p, ci-user, projects, *, miku-system, deny
+    p, ci-user, projects, *, bootstrap, deny
+    p, ci-user, repositories, *, *, deny
+    p, ci-user, repositories, get, *, allow
+    p, ci-user, certificates, *, *, deny
+    p, ci-user, accounts, *, *, deny
